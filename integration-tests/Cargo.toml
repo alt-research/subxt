@@ -21,9 +21,9 @@ frame-metadata = "15.0.0"
 futures = "0.3.13"
 hex = "0.4.3"
 scale-info = { version = "2.0.0", features = ["bit-vec"] }
-sp-core = { version = "6.0.0", default-features = false  }
-sp-keyring = "6.0.0"
-sp-runtime = "6.0.0"
+sp-core = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.22", default-features = false }
+sp-keyring = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.22" }
+sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.22" }
 subxt = { version = "0.21.0", path = "../subxt" }
 test-runtime = { path = "../test-runtime" }
 tokio = { version = "1.8", features = ["macros", "time"] }
