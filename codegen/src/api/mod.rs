@@ -274,6 +274,32 @@ impl RuntimeGenerator {
         let has_module_error_impl =
             errors::generate_has_module_error_impl(&self.metadata, types_mod_ident);
 
+        let validate_metadata_code = {
+            #[cfg(not(feature = "not-metadata-check"))]
+            quote! {
+                pub fn validate_metadata(&'a self) -> Result<(), ::subxt::MetadataError> {
+                    let runtime_metadata_hash = {
+                        let locked_metadata = self.client.metadata();
+                        let metadata = locked_metadata.read();
+                        metadata.metadata_hash(&PALLETS)
+                    };
+
+                    if runtime_metadata_hash != [ #(#metadata_hash,)* ] {
+                        Err(::subxt::MetadataError::IncompatibleMetadata)
+                    } else {
+                        Ok(())
+                    }
+                }
+            }
+
+            #[cfg(feature = "not-metadata-check")]
+            quote! {
+                pub fn validate_metadata(&'a self) -> Result<(), ::subxt::MetadataError> {
+                    Ok(())
+                }
+            }
+        };
+
         quote! {
             #[allow(dead_code, unused_imports, non_camel_case_types)]
             pub mod #mod_ident {
@@ -317,18 +343,7 @@ impl RuntimeGenerator {
                     T: ::subxt::Config,
                     X: ::subxt::extrinsic::ExtrinsicParams<T>,
                 {
-                    pub fn validate_metadata(&'a self) -> Result<(), ::subxt::MetadataError> {
-                        let runtime_metadata_hash = {
-                            let locked_metadata = self.client.metadata();
-                            let metadata = locked_metadata.read();
-                            metadata.metadata_hash(&PALLETS)
-                        };
-                        if runtime_metadata_hash != [ #(#metadata_hash,)* ] {
-                            Err(::subxt::MetadataError::IncompatibleMetadata)
-                        } else {
-                            Ok(())
-                        }
-                    }
+                    #validate_metadata_code
 
                     pub fn constants(&'a self) -> ConstantsApi<'a, T> {
                         ConstantsApi { client: &self.client }

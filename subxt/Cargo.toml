@@ -17,6 +17,7 @@ keywords = ["parity", "substrate", "blockchain"]
 # The exposed functionality is subject to breaking changes at any point,
 # and should not be relied upon.
 integration-tests = []
+not-metadata-check = ["subxt-macro/not-metadata-check"]
 
 [dependencies]
 bitvec = { version = "1.0.0", default-features = false, features = ["alloc"] }
