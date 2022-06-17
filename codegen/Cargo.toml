@@ -10,6 +10,9 @@ documentation = "https://docs.rs/subxt-codegen"
 homepage = "https://www.parity.io/"
 description = "Generate an API for interacting with a substrate node from FRAME metadata"
 
+[features]
+not-metadata-check=[]
+
 [dependencies]
 codec = { package = "parity-scale-codec", version = "3.0.0", default-features = false, features = ["derive", "full", "bit-vec"] }
 darling = "0.14.0"
