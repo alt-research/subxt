@@ -300,6 +300,8 @@ fn generate_storage_entry_fns(
         true => quote!(<'a>),
         false => quote!(),
     };
+
+    #[cfg(not(feature = "not-metadata-check"))]
     let client_iter_fn = if matches!(storage_entry.ty, StorageEntryType::Map { .. }) {
         quote! (
             #docs_token
@@ -334,6 +336,29 @@ fn generate_storage_entry_fns(
         quote!()
     };
 
+    #[cfg(feature = "not-metadata-check")]
+    let client_iter_fn = if matches!(storage_entry.ty, StorageEntryType::Map { .. }) {
+        quote! (
+            #docs_token
+            pub fn #fn_name_iter(
+                &self,
+                block_hash: ::core::option::Option<T::Hash>,
+            ) -> impl ::core::future::Future<
+                Output = ::core::result::Result<::subxt::KeyIter<'a, T, #entry_struct_ident #lifetime_param>, ::subxt::BasicError>
+            > + 'a {
+                // Instead of an async fn which borrows all of self,
+                // we make sure that the returned future only borrows
+                // client, which allows you to chain calls a little better.
+                let client = self.client;
+                async move {
+                    client.storage().iter(block_hash).await
+                }
+            }
+        )
+    } else {
+        quote!()
+    };
+
     let key_args_ref = match should_ref {
         true => quote!(&'a),
         false => quote!(),
@@ -349,6 +374,7 @@ fn generate_storage_entry_fns(
         quote!( #field_name: #key_args_ref #field_ty )
     });
 
+    #[cfg(not(feature = "not-metadata-check"))]
     let client_fns = quote! {
         #docs_token
         pub fn #fn_name(
@@ -377,6 +403,29 @@ fn generate_storage_entry_fns(
                 } else {
                     Err(::subxt::MetadataError::IncompatibleMetadata.into())
                 }
+            }
+        }
+
+        #client_iter_fn
+    };
+
+    #[cfg(feature = "not-metadata-check")]
+    let client_fns = quote! {
+        #docs_token
+        pub fn #fn_name(
+            &self,
+            #( #key_args, )*
+            block_hash: ::core::option::Option<T::Hash>,
+        ) -> impl ::core::future::Future<
+            Output = ::core::result::Result<#return_ty, ::subxt::BasicError>
+        > + 'a {
+            // Instead of an async fn which borrows all of self,
+            // we make sure that the returned future only borrows
+            // client, which allows you to chain calls a little better.
+            let client = self.client;
+            async move {
+                let entry = #constructor;
+                client.storage().#fetch(&entry, block_hash).await
             }
         }
 

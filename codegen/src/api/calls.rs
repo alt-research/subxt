@@ -119,6 +119,7 @@ pub fn generate_calls(
                     const FUNCTION: &'static str = #call_name;
                 }
             };
+            #[cfg(not(feature = "not-metadata-check"))]
             let client_fn = quote! {
                 #docs
                 pub fn #fn_name(
@@ -128,8 +129,9 @@ pub fn generate_calls(
                     let runtime_call_hash = {
                         let locked_metadata = self.client.metadata();
                         let metadata = locked_metadata.read();
-                        metadata.call_hash::<#struct_name>()?
+                        Some(metadata.call_hash::<#struct_name>()?)
                     };
+
                     if runtime_call_hash == [#(#call_hash,)*] {
                         let call = #struct_name { #( #call_args, )* };
                         Ok(::subxt::SubmittableExtrinsic::new(self.client, call))
@@ -138,6 +140,19 @@ pub fn generate_calls(
                     }
                 }
             };
+
+            #[cfg(feature = "not-metadata-check")]
+            let client_fn = quote! {
+                #docs
+                pub fn #fn_name(
+                    &self,
+                    #( #call_fn_args, )*
+                ) -> Result<::subxt::SubmittableExtrinsic<'a, T, X, #struct_name, DispatchError, root_mod::Event>, ::subxt::BasicError> {
+                    let call = #struct_name { #( #call_args, )* };
+                    Ok(::subxt::SubmittableExtrinsic::new(self.client, call))
+                }
+            };
+
             (call_struct, client_fn)
         })
         .unzip();

@@ -20,3 +20,6 @@ proc-macro-error = "1.0.4"
 syn = "1.0.58"
 
 subxt-codegen = { path = "../codegen", version = "0.22.0" }
+
+[features]
+not-metadata-check = ["subxt-codegen/not-metadata-check"]
