@@ -36,8 +36,8 @@ parking_lot = "0.12.0"
 subxt-macro = { version = "0.22.0", path = "../macro" }
 subxt-metadata = { version = "0.22.0", path = "../metadata" }
 
-sp-core = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.28", default-features = false  }
-sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.28" }
+sp-core = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.30", default-features = false  }
+sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.30" }
 
 frame-metadata = "15.0.0"
 derivative = "2.2.0"
