@@ -18,7 +18,7 @@ darling = "0.14.4"
 frame-metadata = "15.0.0"
 heck = "0.4.1"
 proc-macro2 = "1.0.52"
-quote = "1.0.8"
+quote = "1.0.27"
 syn = "1.0.109"
 scale-info = "2.0.0"
 subxt-metadata = { version = "0.27.1", path = "../metadata" }
