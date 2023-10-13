@@ -69,7 +69,7 @@ async fn handle_pallet_metadata(nodes: &[Uri], name: &str) -> color_eyre::Result
                 compatibility
                     .pallet_present
                     .entry(hex_hash)
-                    .or_insert_with(Vec::new)
+                    .or_default()
                     .push(node.to_string());
             }
             None => {
@@ -97,7 +97,7 @@ async fn handle_full_metadata(nodes: &[Uri]) -> color_eyre::Result<()> {
 
         compatibility_map
             .entry(hex_hash)
-            .or_insert_with(Vec::new)
+            .or_default()
             .push(node.to_string());
     }
 

@@ -156,7 +156,7 @@ impl DispatchError {
             }
         };
 
-        let variant = match dispatch_error_ty.type_def() {
+        let variant = match &dispatch_error_ty.type_def {
             TypeDef::Variant(var) => var,
             _ => {
                 tracing::warn!(
@@ -167,10 +167,10 @@ impl DispatchError {
         };
 
         let module_variant_idx = variant
-            .variants()
+            .variants
             .iter()
-            .find(|v| v.name() == "Module")
-            .map(|v| v.index());
+            .find(|v| v.name == "Module")
+            .map(|v| v.index);
         let module_variant_idx = match module_variant_idx {
             Some(idx) => idx,
             None => {

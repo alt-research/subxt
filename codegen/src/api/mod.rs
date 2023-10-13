@@ -394,8 +394,8 @@ impl RuntimeGenerator {
 }
 
 /// Return a vector of tuples of variant names and corresponding struct definitions.
-pub fn generate_structs_from_variants<'a, F>(
-    type_gen: &'a TypeGenerator,
+pub fn generate_structs_from_variants<F>(
+    type_gen: &TypeGenerator,
     type_id: u32,
     variant_to_struct_name: F,
     error_message_type_name: &str,
@@ -405,15 +405,15 @@ where
     F: Fn(&str) -> std::borrow::Cow<str>,
 {
     let ty = type_gen.resolve_type(type_id);
-    if let scale_info::TypeDef::Variant(variant) = ty.type_def() {
+    if let scale_info::TypeDef::Variant(variant) = &ty.type_def {
         variant
-            .variants()
+            .variants
             .iter()
             .map(|var| {
-                let struct_name = variant_to_struct_name(var.name());
+                let struct_name = variant_to_struct_name(&var.name);
                 let fields = CompositeDefFields::from_scale_info_fields(
                     struct_name.as_ref(),
-                    var.fields(),
+                    &var.fields,
                     &[],
                     type_gen,
                 );
@@ -424,10 +424,10 @@ where
                     fields,
                     Some(parse_quote!(pub)),
                     type_gen,
-                    var.docs(),
+                    &var.docs,
                     crate_path,
                 );
-                (var.name().to_string(), struct_def)
+                (var.name.to_string(), struct_def)
             })
             .collect()
     } else {

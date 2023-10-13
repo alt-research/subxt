@@ -410,7 +410,7 @@ fn lookup_storage_return_type(
 /// Fetch the return type out of a [`StorageEntryType`].
 fn return_type_from_storage_entry_type(entry: &StorageEntryType<PortableForm>) -> u32 {
     match entry {
-        StorageEntryType::Plain(ty) => ty.id(),
-        StorageEntryType::Map { value, .. } => value.id(),
+        StorageEntryType::Plain(ty) => ty.id,
+        StorageEntryType::Map { value, .. } => value.id,
     }
 }

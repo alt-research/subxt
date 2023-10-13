@@ -73,7 +73,7 @@ fn codegen(
 
     let crate_path = crate_path.map(Into::into).unwrap_or_default();
     let mut derives = DerivesRegistry::new(&crate_path);
-    derives.extend_for_all(p.into_iter());
+    derives.extend_for_all(p);
 
     let runtime_api = subxt_codegen::generate_runtime_api_from_bytes(
         item_mod,

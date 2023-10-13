@@ -50,7 +50,7 @@ pub fn generate_calls(
 
     let mut struct_defs = super::generate_structs_from_variants(
         type_gen,
-        call.ty.id(),
+        call.ty.id,
         |name| name.to_upper_camel_case().into(),
         "Call",
         crate_path,
@@ -77,7 +77,7 @@ pub fn generate_calls(
                 CompositeDefFields::Unnamed(_) => {
                     abort_call_site!(
                         "Call variant for type {} must have all named fields",
-                        call.ty.id()
+                        call.ty.id
                     )
                 }
             };
@@ -122,8 +122,8 @@ pub fn generate_calls(
         })
         .unzip();
 
-    let call_ty = type_gen.resolve_type(call.ty.id());
-    let docs = call_ty.docs();
+    let call_ty = type_gen.resolve_type(call.ty.id);
+    let docs = &call_ty.docs;
 
     quote! {
         #( #[doc = #docs ] )*

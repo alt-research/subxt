@@ -67,7 +67,7 @@ impl CompositeDef {
             {
                 let ty = type_gen.resolve_type(field.type_id);
                 if matches!(
-                    ty.type_def(),
+                    ty.type_def,
                     TypeDef::Primitive(
                         TypeDefPrimitive::U8
                             | TypeDefPrimitive::U16
@@ -193,14 +193,14 @@ impl CompositeDefFields {
 
         for field in fields {
             let type_path =
-                type_gen.resolve_field_type_path(field.ty().id(), parent_type_params);
+                type_gen.resolve_field_type_path(field.ty.id, parent_type_params);
             let field_type = CompositeDefFieldType::new(
-                field.ty().id(),
+                field.ty.id,
                 type_path,
-                field.type_name().cloned(),
+                field.type_name.clone(),
             );
 
-            if let Some(name) = field.name() {
+            if let Some(name) = &field.name {
                 let field_name = format_ident!("{}", name);
                 named_fields.push((field_name, field_type))
             } else {

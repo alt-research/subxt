@@ -33,8 +33,8 @@ pub trait DecodeWithMetadata {
         let ty = &metadata.pallet(pallet_name)?.storage(storage_entry)?.ty;
 
         let id = match ty {
-            StorageEntryType::Plain(ty) => ty.id(),
-            StorageEntryType::Map { value, .. } => value.id(),
+            StorageEntryType::Plain(ty) => ty.id,
+            StorageEntryType::Map { value, .. } => value.id,
         };
 
         Self::decode_with_metadata(bytes, id, metadata)
