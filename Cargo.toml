@@ -100,10 +100,10 @@ instant = { version = "0.1.12", default-features = false }
 tokio-util = "0.7.10"
 
 # Substrate crates:
-sp-core = { version = "21.0.0", default-features = false }
-sp-core-hashing = { version = "9.0.0", default-features = false }
-sp-runtime = "24.0.0"
-sp-keyring = "24.0.0"
+sp-core = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+sp-core-hashing = {  git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+sp-runtime = {  git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0" }
+sp-keyring = {  git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0" }
 
 # Subxt workspace crates:
 subxt = { version = "0.32.1", path = "subxt", default-features = false }
