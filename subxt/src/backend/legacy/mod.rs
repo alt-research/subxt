@@ -9,8 +9,8 @@ pub mod rpc_methods;
 
 use self::rpc_methods::TransactionStatus as RpcTransactionStatus;
 use crate::backend::{
-    rpc::RpcClient, Backend, BlockRef, RuntimeVersion, StorageResponse, StreamOf, StreamOfResults,
-    TransactionStatus,
+    rpc::RpcClient, Backend, BlockRef, RpcClientT, RuntimeVersion, StorageResponse, StreamOf,
+    StreamOfResults, TransactionStatus,
 };
 use crate::{config::Header, Config, Error};
 use async_trait::async_trait;

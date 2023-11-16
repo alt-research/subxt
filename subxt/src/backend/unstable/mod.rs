@@ -22,8 +22,8 @@ use self::rpc_methods::{
     FollowEvent, MethodResponse, RuntimeEvent, StorageQuery, StorageQueryType, StorageResultType,
 };
 use crate::backend::{
-    rpc::RpcClient, Backend, BlockRef, BlockRefT, RuntimeVersion, StorageResponse, StreamOf,
-    StreamOfResults, TransactionStatus,
+    rpc::RpcClient, Backend, BlockRef, BlockRefT, RpcClientT, RuntimeVersion, StorageResponse,
+    StreamOf, StreamOfResults, TransactionStatus,
 };
 use crate::config::BlockHash;
 use crate::error::{Error, RpcError};

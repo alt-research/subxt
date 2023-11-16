@@ -10,6 +10,7 @@ pub mod legacy;
 pub mod rpc;
 pub mod unstable;
 
+use crate::backend::rpc::RpcClientT;
 use crate::error::Error;
 use crate::metadata::Metadata;
 use crate::Config;
