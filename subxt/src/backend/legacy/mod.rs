@@ -21,6 +21,7 @@ use std::task::{Context, Poll};
 
 // Expose the RPC methods.
 pub use rpc_methods::LegacyRpcMethods;
+use crate::backend::rpc::RpcClientT;
 
 /// The legacy backend.
 #[derive(Debug, Clone)]
@@ -41,6 +42,10 @@ impl<T: Config> super::sealed::Sealed for LegacyBackend<T> {}
 
 #[async_trait]
 impl<T: Config + Send + Sync + 'static> Backend<T> for LegacyBackend<T> {
+    fn rpc_client(&self) -> &dyn RpcClientT {
+        &*self.methods.rpc_client()
+    }
+
     async fn storage_fetch_values(
         &self,
         keys: Vec<Vec<u8>>,

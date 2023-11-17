@@ -34,6 +34,11 @@ impl<T: Config> UnstableRpcMethods<T> {
         }
     }
 
+    /// Return the internal [`RpcClient`].
+    pub fn rpc_client(&self) -> &RpcClient {
+        &self.client
+    }
+
     /// Subscribe to `chainHead_unstable_follow` to obtain all reported blocks by the chain.
     ///
     /// The subscription ID can be used to make queries for the

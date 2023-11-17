@@ -31,6 +31,12 @@ impl<T: Config> LegacyRpcMethods<T> {
         }
     }
 
+    /// Return the internal [`RpcClient`].
+    pub fn rpc_client(&self) -> &RpcClient {
+        &self.client
+    }
+
+
     /// Fetch the raw bytes for a given storage key
     pub async fn state_get_storage(
         &self,
