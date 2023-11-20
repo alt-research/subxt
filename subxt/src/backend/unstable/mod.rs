@@ -38,7 +38,6 @@ use storage_items::StorageItems;
 
 // Expose the RPC methods.
 pub use rpc_methods::UnstableRpcMethods;
-use crate::backend::rpc::RpcClientT;
 
 /// Configure and build an [`UnstableBackend`].
 pub struct UnstableBackendBuilder<T> {
@@ -188,7 +187,7 @@ impl<T: Config> super::sealed::Sealed for UnstableBackend<T> {}
 #[async_trait]
 impl<T: Config + Send + Sync + 'static> Backend<T> for UnstableBackend<T> {
     fn rpc_client(&self) -> &dyn RpcClientT {
-        &*self.methods.rpc_client()
+        &**self.methods.rpc_client()
     }
 
     async fn storage_fetch_values(
