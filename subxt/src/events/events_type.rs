@@ -289,7 +289,7 @@ impl EventDetails {
         // be a named struct or a tuple type). If no fields, assume unnamed.
         let is_named = event_metadata
             .fields()
-            .get(0)
+            .first()
             .map(|fm| fm.name().is_some())
             .unwrap_or(false);
 
